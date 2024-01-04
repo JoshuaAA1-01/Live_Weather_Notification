@@ -1,0 +1,44 @@
+﻿Import requests
+From plyer import notification
+
+Def get_weather(api_key, city, units=’metric’):
+    Base_url = ‘http://api.openweathermap.org/data/2.5/weather’
+    Params = {
+        ‘q’: city,
+        ‘units’: units,
+        ‘appid’: api_key,
+    }
+
+    Response = requests.get(base_url, params=params)
+
+    If response.status_code == 200:
+        Data = response.json()
+        Return data
+    Else:
+        Return None
+
+Def display_notification(city, temperature, weather):
+    Title = f”Weather in {city}”
+    Message = f”Temperature: {temperature}°C\nCondition: {weather}”
+
+    Notification.notify(
+        Title=title,
+        Message=message,
+        Timeout=10
+    )
+
+Def main():
+    Api_key = ‘92b062c0d3b787099c58b31cea629be0’  # Replace with your OpenWeatherMap API key
+    City = ‘Chennai,IN’  # Replace with the city name you want to get the weather for
+
+    Weather_data = get_weather(api_key, city)
+
+    If weather_data:
+        Temperature = weather_data[‘main’][‘temp’]
+        Weather = weather_data[‘weather’][0][‘description’]
+        Display_notification(city, temperature, weather)
+    Else:
+        Print(f”Failed to fetch weather data for {city}”)
+
+If __name__ == “__main__”:
+    Main()
